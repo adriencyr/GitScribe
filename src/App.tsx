@@ -28,6 +28,7 @@ function App() {
               <Profile />
               <SubmissionInput />
               <UploadFile />
+              <UploadFile />
             </main>
           </div>
         </>

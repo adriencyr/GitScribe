@@ -5,7 +5,8 @@ const SubmissionInput = () => {
   return (
     <HStack>
       <Button colorPalette="teal" variant="solid">
-        <RiMailLine /> Upload File
+        File Upload
+        <RiArrowRightLine />
       </Button>
       <Button colorPalette="teal" variant="outline">
         Copy Text <RiArrowRightLine />

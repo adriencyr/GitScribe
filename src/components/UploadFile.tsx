@@ -9,9 +9,6 @@ const UploadFile = () => {
         <Button variant="outline" size="sm">
           <HiUpload /> Upload file
         </Button>
-        <Button variant="outline" size="sm">
-          <HiUpload /> Upload file
-        </Button>
       </FileUpload.Trigger>
       <FileUpload.List />
     </FileUpload.Root>

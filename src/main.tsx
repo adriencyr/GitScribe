@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css'; // Importing the main CSS file
 import App from './App.tsx';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { Provider } from "@/components/ui/provider"
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
         redirect_uri: window.location.origin
       }}
     >
-      <App />
+      <Provider>
+        <App />
+      </Provider>
     </Auth0Provider>
   </StrictMode>
 );

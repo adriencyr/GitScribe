@@ -5,6 +5,7 @@ const SubmissionInput = () => {
   return (
     <HStack>
       <Button colorPalette="teal" variant="solid">
+        ni
         <RiMailLine /> Email
       </Button>
       <Button colorPalette="teal" variant="outline">

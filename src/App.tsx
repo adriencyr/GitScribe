@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import SideBar from "./components/SideBar";
 import SubmissionInput from "./components/SubmissionInput";
-import UploadFile from "./components/UploadFile";
+import GeneraterBar from "./components/GeneraterBar";
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
@@ -27,8 +27,7 @@ function App() {
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
               <Profile />
               <SubmissionInput />
-              <UploadFile />
-              <UploadFile />
+              <GeneraterBar />
             </main>
           </div>
         </>

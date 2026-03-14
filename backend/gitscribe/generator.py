@@ -1,31 +1,35 @@
-import os
 from gitscribe.client import client
-from gitscribe.git_utils import generate_file_summary
+from gitscribe.git_utils import generate_summary_from_file, generate_summary_from_text
 
-def generate_file_commit_message(msgs, file1, file2):
+def generate_commit_message_from_summary(msgs, summary):
     """
-    Generate a commit message based on the changes between two versions of a file.
+    Generate commit message suggestions from a summary of code changes.
 
     Args:
-        msgs (int): The number of messages to generate.
-        file1 (str): The name of the first version of the file.
-        file2 (str): The name of the second version of the file.
-    Returns:
-        str: The generated commit message.
-    """
-    
-    summary = generate_file_summary(file1, file2)
-    print(summary)
+        msgs (int): The number of commit messages to generate.
+        summary (str): A summary describing the code changes.
 
+    Returns:
+        list[str]: A list of generated commit messages.
+    """
     response = client.chat.completions.create(
-        model="gpt-4o-mini", 
+        model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": f"You are a helpful coding assistant generating a concise commit message following the conventional commit format based on the following summary of changes:\n\n{summary}"},
             {
-                "role": "user", 
+                "role": "system",
+                "content": (
+                    "You are a helpful coding assistant generating concise "
+                    "commit messages that follow the Conventional Commits format."
+                ),
+            },
+            {
+                "role": "user",
                 "content": f"""
-                    Generate {msgs} concise commit message{(msgs > 1 and 's' or '')} based on the above summary. 
-                    
+                    Summary of changes:
+                    {summary}
+
+                    Generate {msgs} concise commit message{"s" if msgs > 1 else ""} based on the summary above.
+
                     Rules: 
                     - Maximum 50 characters per message.
                     - Start each message with a verb in the present tense (e.g., 'fix', 'add', 'update').
@@ -43,11 +47,44 @@ def generate_file_commit_message(msgs, file1, file2):
                     - The chore type is for maintenance tasks.
                     - Use a meaningful scope that indicates the area of the codebase affected by the changes (e.g., parser, database, UI).
                     {"- Output each message on a separate line." if msgs > 1 else ""}
-                    """
-             }
-        ]
+                    """,
+            },
+        ],
     )
+
+    content = response.choices[0].message.content
+    return [msg.strip() for msg in content.splitlines() if msg.strip()]
+
+
+def generate_commit_message_from_file(msgs, file1, file2):
+    """
+    Generate commit message suggestions from two file names.
+
+    Args:
+        msgs (int): The number of commit messages to generate.
+        file1 (str): The filename of the first version of the file.
+        file2 (str): The filename of the second version of the file.
+
+    Returns:
+        list[str]: A list of generated commit messages.
+    """
     
-    output = [msg.strip() for msg in response.choices[0].message.content.splitlines() if msg.strip()]
-    print(output)
-    return output
+    summary = generate_summary_from_file(file1, file2)
+    return generate_commit_message_from_summary(msgs, summary)
+
+
+def generate_commit_message_from_text(msgs, text1, text2):
+    """
+    Generate commit message suggestions from two raw code strings.
+
+    Args:
+        msgs (int): The number of commit messages to generate.
+        text1 (str): The contents of the first version of the code.
+        text2 (str): The contents of the second version of the code.
+
+    Returns:
+        list[str]: A list of generated commit messages.
+    """
+    
+    summary = generate_summary_from_text(text1, text2)
+    return generate_commit_message_from_summary(msgs, summary)

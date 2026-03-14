@@ -8,10 +8,8 @@ setup(
         'console_scripts': ['gitscribe=gitscribe.main:main']
     },
     install_requires=[
-        'argparse',
         'openai',
         'python-dotenv',
-        'setuptools'
     ],
     description='A tool to generate commit messages using OpenAI models.',
     author='Author',

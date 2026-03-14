@@ -5,11 +5,10 @@ const SubmissionInput = () => {
   return (
     <HStack>
       <Button colorPalette="teal" variant="solid">
-        ni
-        <RiMailLine /> Email
+        <RiMailLine /> Upload File
       </Button>
       <Button colorPalette="teal" variant="outline">
-        Call us <RiArrowRightLine />
+        Copy Text <RiArrowRightLine />
       </Button>
     </HStack>
   );

@@ -3,6 +3,8 @@ import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import SideBar from "./components/SideBar";
+import SubmissionInput from "./components/SubmissionInput";
+import UploadFile from "./components/UploadFile";
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
@@ -24,6 +26,8 @@ function App() {
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
               <Profile />
+              <SubmissionInput />
+              <UploadFile />
             </main>
           </div>
         </>

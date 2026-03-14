@@ -1,5 +1,4 @@
 import os
-from urllib import response
 from client import client
 
 def get_file_summary(file1, file2):

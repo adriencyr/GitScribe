@@ -1,14 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "./components/LoginButton";
+import LoginPageCard from "./components/LoginpageCard";
+import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import SideBar from "./components/SideBar";
-import NavBar from "./components/NavBar";
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div style={loadingOverlayStyle}>Loading GitScribe...</div>;
   }
 
   if (error) {
@@ -24,19 +24,35 @@ function App() {
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
               <Profile />
-              {/* something here later maybe??? */}
             </main>
           </div>
         </>
       ) : (
-        <div style={{ textAlign: "center", marginTop: "100px" }}>
-          <h1>GitScribe</h1>
-          <p>Sign in with Github to get started</p>
-          <LoginButton />
+        <div style={loginContainerStyle}>
+          <LoginPageCard />
         </div>
       )}
     </div>
   );
 }
+
+// css for login-stuff
+const loginContainerStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  backgroundColor: "#1A202C", // Dark Slate background
+};
+
+const loadingOverlayStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  fontSize: "20px",
+  color: "white",
+  backgroundColor: "#1A202C",
+};
 
 export default App;

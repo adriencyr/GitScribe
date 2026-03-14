@@ -12,8 +12,6 @@ env/
 .env
 .ipynb_checkpoints/
 
-
-
 # React / Node (Frontend)
 node_modules/
 dist/

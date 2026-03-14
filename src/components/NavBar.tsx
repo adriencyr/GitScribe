@@ -52,7 +52,8 @@ const Navbar = () => {
             <span
               style={{
                 fontSize: "12px",
-                color: "#718096", // Gray 500 subtext
+                color: "#000000",
+                fontWeight: "500",
               }}
             >
               {/* This fallback ensures the space isn't empty if the email is private */}

@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from gitscribe.client import client
 
 def generate_file_summary(file1, file2):
@@ -12,13 +12,14 @@ def generate_file_summary(file1, file2):
         str: The summary of changes for the specified file.
     """
     
-    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+    BASE_DIR = Path(__file__).resolve().parents[1]  # backend/
+    DATA_DIR = BASE_DIR / "data"
 
-    file1_path = os.path.join(BASE_DIR, 'data', file1)
-    file2_path = os.path.join(BASE_DIR, 'data', file2)
-    
-    file1_content = open(file1_path, 'r').read()
-    file2_content = open(file2_path, 'r').read()
+    file1_path = DATA_DIR / file1
+    file2_path = DATA_DIR / file2
+
+    file1_content = file1_path.read_text()
+    file2_content = file2_path.read_text()
     
     print(f"Getting summary for {file1} and {file2}...")
     

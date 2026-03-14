@@ -21,9 +21,7 @@ function App() {
       {isAuthenticated ? (
         <>
           <NavBar />
-          <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
-            <SideBar />
-          </div>
+          <SideBar />
         </>
       ) : (
         <div style={loginContainerStyle}>

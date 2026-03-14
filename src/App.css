@@ -189,6 +189,9 @@
   width:20%;
   color: black;
   background-color: #4299E1;
+  border-radius: 10px;
+  border:1px;
+  height: 100vh;
 }
 
 .sidebar-folder {

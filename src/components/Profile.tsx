@@ -2,11 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <div className="loading-text">Loading profile...</div>;
-  }
+  const { user, isAuthenticated } = useAuth0();
 
   useEffect(()=>{
     if(isAuthenticated && user){

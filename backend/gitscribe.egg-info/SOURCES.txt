@@ -1,0 +1,10 @@
+setup.py
+gitscribe/client.py
+gitscribe/generator.py
+gitscribe/git_utils.py
+gitscribe.egg-info/PKG-INFO
+gitscribe.egg-info/SOURCES.txt
+gitscribe.egg-info/dependency_links.txt
+gitscribe.egg-info/entry_points.txt
+gitscribe.egg-info/requires.txt
+gitscribe.egg-info/top_level.txt

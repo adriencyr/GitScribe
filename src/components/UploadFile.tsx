@@ -1,13 +1,18 @@
 import { Button, FileUpload } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
 
-const UploadFile = () => {
+type UploadFileProps = {
+  handleChangeEvent: (event: React.ChangeEvent<HTMLInputElement>, fileName:String) => void;
+  fileName: String;
+};
+
+const UploadFile = ({handleChangeEvent, fileName}: UploadFileProps) => {
   return (
     <FileUpload.Root directory>
-      <FileUpload.HiddenInput />
+      <FileUpload.HiddenInput onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{handleChangeEvent(e,fileName)}} />
       <FileUpload.Trigger asChild>
         <Button variant="outline" size="sm">
-          <HiUpload /> Upload file
+          <HiUpload /> Upload the old file
         </Button>
       </FileUpload.Trigger>
       <FileUpload.List />

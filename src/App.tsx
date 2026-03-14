@@ -1,9 +1,9 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import SideBar from "./components/SideBar"
+import { useAuth0 } from "@auth0/auth0-react";
 import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
-import "./App.css"
-
+import Profile from "./components/Profile";
+import SideBar from "./components/SideBar";
+import UploadForm from "./components/UploadForm";
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
@@ -21,7 +21,13 @@ function App() {
       {isAuthenticated ? (
         <>
           <NavBar />
-          <SideBar />
+          <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
+            <SideBar />
+            <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+              <Profile />
+              <UploadForm/>
+            </main>
+          </div>
         </>
       ) : (
         <div style={loginContainerStyle}>

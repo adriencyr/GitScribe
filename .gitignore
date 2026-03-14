@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+gitscribe.egg-info/
+build/
 
 # Environments
 .venv/

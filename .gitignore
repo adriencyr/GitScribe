@@ -11,3 +11,14 @@ env/
 # AI/Data
 .env
 .ipynb_checkpoints/
+data/
+
+# React / Node (Frontend)
+node_modules/
+dist/
+.eslintcache
+*.log
+
+# OS Specific
+.DS_Store
+Thumbs.db

@@ -1,5 +1,3 @@
-"use client"
-
 import { TreeView, createTreeCollection } from "@chakra-ui/react"
 import { LuFile, LuFolder } from "react-icons/lu"
 
@@ -50,20 +48,21 @@ const collection = createTreeCollection<Node>({
 
 const SideBar = () => {
     return (
-    <TreeView.Root collection={collection} maxW="sm">
+    <TreeView.Root collection={collection} maxW="sm" className="sidebar">
       <TreeView.Label>Tree</TreeView.Label>
       <TreeView.Tree>
         <TreeView.Node
           indentGuide={<TreeView.BranchIndentGuide />}
           render={({ node, nodeState }) =>
             nodeState.isBranch ? (
-              <TreeView.BranchControl>
+              <TreeView.BranchControl className="sidebar-folder">
                 <LuFolder />
                 <TreeView.BranchText>{node.name}</TreeView.BranchText>
               </TreeView.BranchControl>
             ) : (
               <TreeView.Item
               onClick={()=>{console.log("Click me")}}
+              className="sidebar-file"
               >
                 <LuFile />
                 <TreeView.ItemText>{node.name}</TreeView.ItemText>

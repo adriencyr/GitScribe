@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import Profile from './components/Profile';
-// import SideBar from "./components/SideBar"
+import SideBar from "./components/SideBar"
 import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
+import "./App.css"
 
 
 function App() {
@@ -22,10 +22,7 @@ function App() {
         <>
           <NavBar />
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
-            {/* <SideBar /> */}
-            <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
-              <Profile />
-            </main>
+            <SideBar />
           </div>
         </>
       ) : (

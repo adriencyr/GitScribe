@@ -27,7 +27,7 @@ const Navbar = () => {
               height: "35px",
               borderRadius: "50%",
               overflow: "hidden",
-              border: "1px solid #718096", // Using Gray 500 from your palette
+              border: "1px solid #718096",
             }}
           >
             <img

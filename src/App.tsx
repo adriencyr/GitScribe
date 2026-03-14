@@ -6,13 +6,7 @@ import SideBar from "./components/SideBar"
 
 
 function App() {
-  const { isAuthenticated, isLoading, error } = useAuth0();
-
-  if (isLoading) {
-    return (
-      <div>Loading...</div>
-    );
-  }
+  const { isAuthenticated, error } = useAuth0();
 
   if (error) {
     return (

@@ -1,9 +1,9 @@
-import os
-from client import client
+from pathlib import Path
+from gitscribe.client import client
 
-def get_file_summary(file1, file2):
+def generate_file_summary(file1, file2):
     """
-    Get the summary of changes between a file in two different commits.
+    Generate a summary of changes between a file in two different commits.
 
     Args:
         file1 (str): The name of the first version of the file.
@@ -12,13 +12,14 @@ def get_file_summary(file1, file2):
         str: The summary of changes for the specified file.
     """
     
-    BASE_DIR = os.path.dirname(os.getcwd())
+    BASE_DIR = Path(__file__).resolve().parents[1]  # backend/
+    DATA_DIR = BASE_DIR / "data"
 
-    file1_path = os.path.join(BASE_DIR, 'data', 'test1.py')
-    file2_path = os.path.join(BASE_DIR, 'data', 'test2.py')
-    
-    file1_content = open(file1_path, 'r').read()
-    file2_content = open(file2_path, 'r').read()
+    file1_path = DATA_DIR / file1
+    file2_path = DATA_DIR / file2
+
+    file1_content = file1_path.read_text()
+    file2_content = file2_path.read_text()
     
     print(f"Getting summary for {file1} and {file2}...")
     
@@ -30,4 +31,4 @@ def get_file_summary(file1, file2):
         ]
     )
 
-    print(response.choices[0].message.content)
+    return response.choices[0].message.content

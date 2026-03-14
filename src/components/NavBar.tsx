@@ -11,8 +11,8 @@ const Navbar = () => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "10px 20px",
-        backgroundColor: "#EDF2F7", // gray 100
-        borderBottom: "1px solid #718096", // gray 500
+        backgroundColor: "#EDF2F7",
+        borderBottom: "1px solid #718096",
         color: "black",
       }}
     >
@@ -20,18 +20,46 @@ const Navbar = () => {
 
       {isAuthenticated && (
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span style={{ color: "black" }}>{user?.name}</span>
+          {/* Profile Picture on the Left */}
           <div
             style={{
               width: "35px",
               height: "35px",
               borderRadius: "50%",
               overflow: "hidden",
-              border: "1px solid #ccc",
+              border: "1px solid #718096", // Using Gray 500 from your palette
             }}
           >
-            <img src={user?.picture} alt={user?.name} style={{ width: "100%" }} />
+            <img
+              src={user?.picture}
+              alt={user?.name}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
+
+          {/* Stacked Name and Email */}
+          <div style={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
+            <span
+              style={{
+                fontWeight: "bold",
+                fontSize: "14px",
+                color: "black",
+                lineHeight: "1.2",
+              }}
+            >
+              {user?.name}
+            </span>
+            <span
+              style={{
+                fontSize: "12px",
+                color: "#718096", // Gray 500 subtext
+              }}
+            >
+              {/* This fallback ensures the space isn't empty if the email is private */}
+              {user?.email || `@${user?.nickname}`}
+            </span>
+          </div>
+
           <LogoutButton />
         </div>
       )}

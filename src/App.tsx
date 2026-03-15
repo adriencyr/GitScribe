@@ -1,15 +1,16 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
-import Profile from "./components/Profile";
 import SideBar from "./components/SideBar";
 import UploadForm from "./components/UploadForm";
-import SubmissionInput from "./components/SubmissionInput";
-import GeneraterBar from "./components/GeneraterBar";
+import { useState } from "react";
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
-
+  const [messages,setMessages] = useState<Object|null>(null);
+  function handleUpdateMessages(message:Object){
+    setMessages(message)
+  }
   if (isLoading) {
     return <div style={loadingOverlayStyle}>Loading GitScribe...</div>;
   }
@@ -26,11 +27,10 @@ function App() {
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
-              <UploadForm/>
-              <Profile />
-              <UploadForm/>
-              <SubmissionInput />
-              <div style={{ marginTop: "20px" }}>
+              <UploadForm handleUpdateMessages={handleUpdateMessages}/>
+
+              {/* <SubmissionInput /> */}
+              {/* <div style={{ marginTop: "20px" }}>
                 <GeneraterBar />
               </div>
               <div style={{ marginTop: "20px" }}>
@@ -38,7 +38,7 @@ function App() {
               </div>
               <div style={{ marginTop: "20px" }}>
                 <GeneraterBar />
-              </div>
+              </div> */}
             </main>
           </div>
         </>

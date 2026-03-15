@@ -3,13 +3,18 @@ import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import UploadForm from "./components/UploadForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import MessageComponent from "./components/MessageComponent";
+import './App.css';
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
-  const [messages,setMessages] = useState<Object|null>(null);
-  function handleUpdateMessages(message:Object){
-    setMessages(message)
+  const [messages, setMessages] = useState([]);
+
+  useEffect(()=>{console.log(typeof messages)},[messages])
+
+  function handleUpdateMessages(messages: []) {
+    setMessages(messages)
   }
   if (isLoading) {
     return <div style={loadingOverlayStyle}>Loading GitScribe...</div>;
@@ -27,8 +32,12 @@ function App() {
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
-              <UploadForm handleUpdateMessages={handleUpdateMessages}/>
-
+              <UploadForm handleUpdateMessages={handleUpdateMessages} />
+              <ol className="commit-messages">
+                {messages.map(message => {
+                  return <MessageComponent key={message} message={message} />
+                })}
+              </ol>
               {/* <SubmissionInput /> */}
               {/* <div style={{ marginTop: "20px" }}>
                 <GeneraterBar />

@@ -1,2 +1,4 @@
+from importlib.metadata import version as _version
+
 __author__ = "GitScribe Team"
-__version__ = "0.1.0"
+__version__ = _version("gitscribe")

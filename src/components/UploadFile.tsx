@@ -4,11 +4,11 @@ import { Button, FileUpload, Stack } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
 
 type UploadFileProps = {
-  handleChangeEvent: (event: React.ChangeEvent<HTMLInputElement>, fileName:string) => void;
+  handleFileInputChangeEvent: (event: React.ChangeEvent<HTMLInputElement>, fileName:string) => void;
   fileName: string;
 };
 
-const UploadFile = ({handleChangeEvent, fileName}: UploadFileProps) => {
+const UploadFile = ({handleFileInputChangeEvent, fileName}: UploadFileProps) => {
   return (
     <Stack gap="4" align="stretch">
       <FileUpload.Root
@@ -25,11 +25,11 @@ const UploadFile = ({handleChangeEvent, fileName}: UploadFileProps) => {
           ".css",
         ]}
       >
-        <FileUpload.HiddenInput onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{handleChangeEvent(e,fileName)}}/>
+        <FileUpload.HiddenInput onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{handleFileInputChangeEvent(e,fileName)}}/>
 
         <FileUpload.Trigger asChild>
           <Button variant="outline" size="sm" width="fit-content">
-            <HiUpload /> Upload your {fileName=="newFile" ? "new file" : "old file"} here
+            <HiUpload /> Upload your {fileName=="newFile" ? "new file" : "old"} here
           </Button>
         </FileUpload.Trigger>
 

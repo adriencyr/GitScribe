@@ -5,6 +5,17 @@ const LoginPageCard = () => {
 
   return (
     <div style={cardStyle}>
+      {/* Logo */}
+      <img
+        src="/img/logo1.png"
+        alt="GitScribe Logo"
+        style={{
+          width: "80px",
+          margin: "0 auto 20px auto",
+          display: "block",
+          marginBottom: "30px",
+        }}
+      />
       <h1
         style={{
           fontSize: "64px",
@@ -22,7 +33,9 @@ const LoginPageCard = () => {
 
       {/*GitHub Login Button */}
       <button
-        onClick={() => loginWithRedirect({ authorizationParams: { connection: "github" } })}
+        onClick={() =>
+          loginWithRedirect({ authorizationParams: { connection: "github" } })
+        }
         style={githubButtonStyle}
       >
         <img

@@ -11,12 +11,26 @@ const Navbar = () => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "10px 20px",
-        backgroundColor: "#EDF2F7",
-        borderBottom: "1px solid #718096",
+        backgroundColor: "#d6BCFA",
+        // borderBottom: "1px solid #98a8be",
+        borderRadius: "16px 16px 16px 16px",
+        boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)",
+        margin: "15px",
         color: "black",
       }}
     >
-      <div style={{ fontWeight: "bold", fontSize: "32px", color: "black" }}>GitScribe</div>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <img
+          src="/img/logo1.png"
+          alt="GitScribe"
+          style={{ width: "50px", height: "50px" }}
+        />
+        <span
+          style={{ fontWeight: "bold", fontSize: "32px", color: "#4f2ba1" }}
+        >
+          GitScribe
+        </span>
+      </div>
 
       {isAuthenticated && (
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -38,7 +52,13 @@ const Navbar = () => {
           </div>
 
           {/* Stacked Name and Email */}
-          <div style={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "left",
+            }}
+          >
             <span
               style={{
                 fontWeight: "bold",

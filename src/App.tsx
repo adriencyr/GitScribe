@@ -3,13 +3,15 @@ import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import UploadForm from "./components/UploadForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MessageComponent from "./components/MessageComponent";
 import './App.css';
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
   const [messages, setMessages] = useState([]);
+
+  useEffect(()=>{console.log(typeof messages)},[messages])
 
   function handleUpdateMessages(messages: []) {
     setMessages(messages)
@@ -32,8 +34,8 @@ function App() {
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
               <UploadForm handleUpdateMessages={handleUpdateMessages} />
               <ol className="commit-messages">
-                {["fasfsa", "fasfsaf", "fasfdafs"].map(message => {
-                  return <MessageComponent message={message} />
+                {messages.map(message => {
+                  return <MessageComponent key={message} message={message} />
                 })}
               </ol>
               {/* <SubmissionInput /> */}

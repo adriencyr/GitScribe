@@ -4,7 +4,7 @@ const MessageComponent = function({message}:{message:string}){
 return(
     <li className="commit-message">
         <p>{message}</p>
-        <Button onClick={()=>{navigator.clipboard.writeText(message)}}>Button</Button>
+        <Button onClick={()=>{navigator.clipboard.writeText(message)}}>Copy</Button>
     </li>
 )
 }

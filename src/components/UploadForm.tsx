@@ -15,6 +15,7 @@ const UploadForm = ({handleUpdateMessages, handleUpdateLoadingMessagesState}:Upl
     const [oldFile, setOldFile] = useState<File | null>(null);
     const [newFile, setNewFile] = useState<File | null>(null);
     const [numMsgs, setNumMsgs] = useState<string>("1");
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false)
     const { user } = useAuth0();
 
     function handleFileInputChangeEvent(event: React.ChangeEvent<HTMLInputElement>, fileName: string) {
@@ -56,6 +57,7 @@ const UploadForm = ({handleUpdateMessages, handleUpdateLoadingMessagesState}:Upl
             e.preventDefault();
             if (oldFile && newFile && user?.sub) {
                 handleUpdateLoadingMessagesState(true);
+                setIsButtonDisabled(true)
                 //make first api request to upload file
                 const response1 = await uploadFiles(oldFile, newFile, numMsgs, user.sub)
 
@@ -70,6 +72,7 @@ const UploadForm = ({handleUpdateMessages, handleUpdateLoadingMessagesState}:Upl
         }
         finally {
             handleUpdateLoadingMessagesState(false);
+            setIsButtonDisabled(false)
         }
     }
 
@@ -78,7 +81,7 @@ const UploadForm = ({handleUpdateMessages, handleUpdateLoadingMessagesState}:Upl
             <UploadFile fileName="oldFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
             <UploadFile fileName="newFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
             <NumberInputComponent numMsgs={numMsgs} handleNumberInputChangeEvent={handleNumberInputChangeEvent} />
-            <Button colorPalette="teal" type="submit" alignSelf="flex-end" onClick={(e: React.MouseEvent<HTMLButtonElement>) => { handleSubmitForm(e) }}>
+            <Button disabled={isButtonDisabled} colorPalette="teal" type="submit" alignSelf="flex-end" onClick={(e: React.MouseEvent<HTMLButtonElement>) => { handleSubmitForm(e) }}>
                 Submit
             </Button>
         </div>

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gitscribe"
+version = "0.1.0"
+description = "A tool to generate commit messages using OpenAI models."
+authors = [
+    { name = "GitScribe Team" }
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0"
+]
+
+[project.scripts]
+gitscribe = "gitscribe.main:main"
+gs = "gitscribe.main:main"
+
+[tool.setuptools]
+packages = ["gitscribe"]

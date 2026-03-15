@@ -6,16 +6,24 @@ import UploadForm from "./components/UploadForm";
 import { useEffect, useState } from "react";
 import MessageComponent from "./components/MessageComponent";
 import './App.css';
+import { ThreeDots } from 'react-loading-icons'
+
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
   const [messages, setMessages] = useState([]);
+  const [loadingMessages, setLoadingMessages] = useState(false)
 
-  useEffect(()=>{console.log(typeof messages)},[messages])
+  useEffect(() => { console.log(typeof messages) }, [messages])
 
   function handleUpdateMessages(messages: []) {
     setMessages(messages)
   }
+
+  function handleUpdateLoadingMessagesState(value: boolean) {
+    setLoadingMessages(value)
+  }
+
   if (isLoading) {
     return <div style={loadingOverlayStyle}>Loading GitScribe...</div>;
   }
@@ -32,22 +40,22 @@ function App() {
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
-              <UploadForm handleUpdateMessages={handleUpdateMessages} />
+              <UploadForm handleUpdateMessages={handleUpdateMessages} handleUpdateLoadingMessagesState={handleUpdateLoadingMessagesState} />
+              {loadingMessages && <div className="loading-component">
+                <ThreeDots
+                  stroke="#3182ce"
+                  strokeWidth={2}
+                  height="200px"
+                  width="200px"
+                />
+              </div>}
+
               <ol className="commit-messages">
                 {messages.map(message => {
                   return <MessageComponent key={message} message={message} />
                 })}
               </ol>
-              {/* <SubmissionInput /> */}
-              {/* <div style={{ marginTop: "20px" }}>
-                <GeneraterBar />
-              </div>
-              <div style={{ marginTop: "20px" }}>
-                <GeneraterBar />
-              </div>
-              <div style={{ marginTop: "20px" }}>
-                <GeneraterBar />
-              </div> */}
+              
             </main>
           </div>
         </>

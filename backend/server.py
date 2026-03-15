@@ -32,6 +32,9 @@ async def read_msgs(user_id: str, cache = Depends(get_redis)):
      messages = cache.get(user_id)
      return {"msgs": messages}
 
+@app.get("/test/")
+async def test_endpoint():
+    return {"message": "This is a test endpoint for GitScribe."}
 
 @app.post("/uploads/")
 async def update_item(

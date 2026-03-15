@@ -39,7 +39,7 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(message:object
             formData.append("num_msgs", num_msgs)
             formData.append("user_id", user_id)
 
-            const response = await axios.post(`${import.meta.env.VITE_AUTH0_URL}/uploads`, formData);
+            const response = await axios.post(`${import.meta.env.VITE_AUTH0_URL}/uploads/`, formData);
             return response;
         } catch (error) {
             console.error(error);

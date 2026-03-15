@@ -13,7 +13,7 @@ type FormatCardProps = {
   rows: CodeRow[];
 };
 
-function FormatCard({ fileName, title, rows }: FormatCardProps) {
+export function FormatCard({ fileName, title, rows }: FormatCardProps) {
   const handleCopy = async () => {
     const text = rows.map((row) => row.content).join("\n");
 

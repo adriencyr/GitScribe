@@ -10,7 +10,7 @@ const UploadForm = () => {
     const [newFile, setNewFile] = useState<File | null>(null);
     const { user } = useAuth0();
 
-    function handleChangeEvent(event: React.ChangeEvent<HTMLInputElement>, fileName: String) {
+    function handleChangeEvent(event: React.ChangeEvent<HTMLInputElement>, fileName: string) {
         const files = event?.target?.files;
         if (files == null) {
             alert("File has not been uploaded yet")
@@ -33,7 +33,7 @@ const UploadForm = () => {
             formData.append("num_msgs", num_msgs)
             formData.append("user_id", user_id)
 
-            const response = await axios.post("http://localhost:8000/postData", formData);
+            const response = await axios.post("http://localhost:8000/uploads", formData);
             return response;
         } catch (error) {
             console.error(error);

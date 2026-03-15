@@ -11,12 +11,12 @@ def get_redis():
 
 
 
-@app.get("/uploads/{item_id}")
+@app.get("/uploads/")
 async def read_msgs(item_id: str, cache = Depends(get_redis)):
      messages = cache.get(item_id)
      return {"msgs": messages}
 
-@app.post("/uploads/{item_id}")
+@app.post("/uploads/")
 async def update_item(item_id: str, num_msgs: int, old_filename: str, new_filename: str, cache = Depends(get_redis)):
   cache.set(item_id, old_filename)
   return {"uploaded": old_filename }

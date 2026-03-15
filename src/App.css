@@ -225,3 +225,26 @@
   margin-bottom: 1rem;
   min-height: 100px;
 }
+
+.modal-box-container{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: grey;
+}
+
+.modal-box{
+  position: relative;
+  left: 50%;
+  right: 50%;
+  border: grey 1px solid;
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px 5px #e6e2e2;
+  background-color: ivory;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Stack, Textarea } from "@chakra-ui/react";
+import { Button, Flex, Stack, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 
 const CopyText = () => {
@@ -11,21 +11,22 @@ const CopyText = () => {
   };
 
   return (
-    <Stack gap="4" align="stretch">
+    <Flex gap="4" align="flex-start">
       <Textarea
-        placeholder="Paste your text here..."
-        minH="100px"
+        placeholder="Result from GitScribe..."
+        minH="150px"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-
-      <Button onClick={handleSubmit} alignSelf="flex-end" colorPalette="teal">
-        Copy
-      </Button>
-      <Button onClick={handleSubmit} alignSelf="flex-end" colorPalette="teal">
-       Re-Generate
-      </Button>
-    </Stack>
+      <Stack gap="2">
+        <Button onClick={handleSubmit} alignSelf="flex-end" colorPalette="teal">
+          Copy
+        </Button>
+        <Button onClick={handleSubmit} alignSelf="flex-end" colorPalette="teal">
+          Re-Generate
+        </Button>
+      </Stack>
+    </Flex>
   );
 };
 

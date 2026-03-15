@@ -1,4 +1,4 @@
-import argparse
+import argparse, json
 from pathlib import Path
 from git import Repo
 from gitscribe.git_utils import generate_summary_from_combined_diff
@@ -90,24 +90,51 @@ def build_combined_diff_text(
 
 def main():
     parser = argparse.ArgumentParser(prog="gitscribe")
-    parser.add_argument(
-        "-g",
-        "--generate",
-        action="store_true",
-        help="generate commit message suggestions from working tree changes",
+    
+    subparsers = parser.add_subparsers(dest="command")
+    
+    # setup command
+    setup_parser = subparsers.add_parser(
+        "setup",
+        help="initialize GitScribe configuration"
     )
-    parser.add_argument(
+
+    # generate command
+    generate_parser = subparsers.add_parser(
+        "generate",
+        help="generate commit message suggestions"
+    )
+
+    generate_parser.add_argument(
         "-nm",
         "--num_msgs",
         type=int,
         default=3,
-        help="number of commit messages to generate",
+        help="number of commit messages to generate"
     )
 
     args = parser.parse_args()
 
-    match args:
-        case _ if args.generate:
+    match args.command:
+        case "setup":
+            print("Welcome to GitScribe! This setup command will guide you through configuring GitScribe for your system.")
+            print("Luckily for you, GitScribe is designed to work as seamlessly as possible. The only setup step is to input your GitHub personal access token (for GitHub Models).")
+            api_key = input("Please enter your GitHub personal access token (you can find this in your GitHub account settings): ")
+            
+            app_config = {
+                "OPENAI_API_KEY": api_key
+            }
+            
+            config_dir = Path.home() / ".gitscribe"
+            config_dir.mkdir(parents=True, exist_ok=True)
+
+            config_path = config_dir / "config.json"
+
+            config_path.write_text(json.dumps(app_config, indent=2))
+
+            print(f"Configuration saved to {config_path}. You can now run gitscribe (gs) to generate your messages! Happy coding!")
+            
+        case "generate":
             MIN_MSGS = 1
             MAX_MSGS = 10
             if (args.num_msgs < MIN_MSGS):

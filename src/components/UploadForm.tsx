@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import NumberInputComponent from "./NumberInputComponent";
 
-const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=>void}) => {
+const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(message:object)=>void}) => {
     console.log(`${import.meta.env.VITE_AUTH0_URL}/uploads`);
     const [oldFile, setOldFile] = useState<File | null>(null);
     const [newFile, setNewFile] = useState<File | null>(null);
@@ -55,7 +55,8 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=
 
                 if (response1?.data) {
                     const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs/${user.sub}`)
-                    console.log(response2?.data)
+                    console.log(response2.data)
+                    handleUpdateMessages(response2.data)
                 }
             }
         }

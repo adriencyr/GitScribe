@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, FileUpload, Stack } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
 

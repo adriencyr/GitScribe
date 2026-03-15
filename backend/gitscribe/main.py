@@ -191,9 +191,6 @@ def main():
             print("\nGenerating overall summary...")
             summary = generate_summary_from_combined_diff(combined_diff_text)
 
-            print("\nSummary:")
-            print(summary)
-
             print("\nGenerating commit messages...")
             messages = generate_commit_message_from_summary(args.num_msgs, summary)
 

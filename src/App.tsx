@@ -3,6 +3,9 @@ import LoginPageCard from "./components/LoginpageCard";
 import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import SideBar from "./components/SideBar";
+import UploadForm from "./components/UploadForm";
+import SubmissionInput from "./components/SubmissionInput";
+import GeneraterBar from "./components/GeneraterBar";
 
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
@@ -23,7 +26,19 @@ function App() {
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+              <UploadForm/>
               <Profile />
+              <UploadForm/>
+              <SubmissionInput />
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
             </main>
           </div>
         </>

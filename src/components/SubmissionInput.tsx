@@ -1,5 +1,5 @@
 import { Box, Tabs } from "@chakra-ui/react";
-import UploadFile from "./UploadFile";
+// import UploadFile from "./UploadFile";
 import CopyText from "./CopyText";
 
 const SubmissionInput = () => {
@@ -13,7 +13,7 @@ const SubmissionInput = () => {
 
         <Tabs.Content value="file">
           <Box mt="4">
-            <UploadFile />
+            {/* <UploadFile /> */}
           </Box>
         </Tabs.Content>
 
@@ -25,7 +25,7 @@ const SubmissionInput = () => {
 
         <Tabs.Content value="file">
           <Box mt="4">
-            <UploadFile />
+            {/* <UploadFile /> */}
           </Box>
         </Tabs.Content>
       </Tabs.Root>

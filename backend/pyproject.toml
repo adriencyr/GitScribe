@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gitscribe"
-version = "0.1.0"
+version = "1.0.0"
 description = "A tool to generate commit messages using OpenAI models."
 authors = [
     { name = "GitScribe Team" }

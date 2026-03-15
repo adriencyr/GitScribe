@@ -27,7 +27,11 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=
         }
     }
 
+<<<<<<< HEAD
     function handleNumberInputChangeEvent(value: string) {
+=======
+    function handleNumberInputChangeEvent(value:string){
+>>>>>>> main
         setNumMsgs(value);
     }
 
@@ -46,6 +50,7 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=
         }
     }
 
+<<<<<<< HEAD
     async function handleSubmitForm(e: React.MouseEvent<HTMLButtonElement>) {
         try {
             e.preventDefault();
@@ -57,6 +62,18 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=
                     const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs/${user.sub}`)
                     console.log(response2?.data)
                 }
+=======
+    async function handleSubmitForm(e:React.MouseEvent<HTMLButtonElement>) {
+        try{
+        e.preventDefault();
+        if (oldFile && newFile && user?.sub) {
+            //make first api request to upload file
+            const response1 = await uploadFiles(oldFile, newFile, numMsgs, user.sub)
+            
+            if(response1?.data){
+                const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs/${user.sub}`)
+                console.log(response2?.data)
+>>>>>>> main
             }
         }
         catch (e) {
@@ -68,8 +85,13 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=
         <div>
             <UploadFile fileName="oldFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
             <UploadFile fileName="newFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
+<<<<<<< HEAD
             <NumberInputComponent numMsgs={numMsgs} handleNumberInputChangeEvent={handleNumberInputChangeEvent} />
             <Button colorPalette="teal" type="submit" alignSelf="flex-end" onClick={(e: React.MouseEvent<HTMLButtonElement>) => { handleSubmitForm(e) }}>
+=======
+            <NumberInputComponent numMsgs = {numMsgs} handleNumberInputChangeEvent={handleNumberInputChangeEvent}/>
+            <Button colorPalette="teal" type="submit" alignSelf="flex-end" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{handleSubmitForm(e)}}>
+>>>>>>> main
                 Submit
             </Button>
         </div>

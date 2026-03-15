@@ -72,3 +72,33 @@ def generate_summary_from_text(file1_content, file2_content):
     """
     
     return generate_summary(file1_content, file2_content)
+
+def generate_summary_from_combined_diff(diff_text):
+    """
+    Generate one overall summary from a combined multi-file diff payload.
+
+    Args:
+        diff_text (str): A combined text block containing changes across multiple files.
+
+    Returns:
+        str: A summary describing the overall change set.
+    """
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a helpful coding assistant summarizing code changes across multiple files."
+                )
+            },
+            {
+                "role": "user",
+                "content": (
+                    "Summarize the overall code changes across the following files. Focus on the main intent of the changes rather than line-by-line details.\n\n" + f"{diff_text}"
+                )
+            }
+        ]
+    )
+
+    return response.choices[0].message.content

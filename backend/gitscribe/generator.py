@@ -18,8 +18,7 @@ def generate_commit_message_from_summary(msgs, summary):
             {
                 "role": "system",
                 "content": (
-                    "You are a helpful coding assistant generating concise "
-                    "commit messages that follow the Conventional Commits format."
+                    "You are a helpful coding assistant generating concise commit messages that follow the Conventional Commits format."
                 ),
             },
             {

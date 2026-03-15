@@ -13,7 +13,7 @@ There are two ways to use it:
 
 For both Windows and Mac OS systems, install gitscribe on terminal/command prompt/powershell. Make sure you have Python Package Manager installed first.
 ```
-pip install gs-cli
+pip install gtscr
 ```
 
 Check you have it installed by entering this in your terminal:

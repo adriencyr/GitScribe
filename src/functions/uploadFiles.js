@@ -1,6 +1,6 @@
 import axios from "axios";
 
-async function filesUpload(old_file, new_file, num_msgs, user_id) {
+export default async function uploadFiles(old_file, new_file, num_msgs, user_id) {
     try {
         const formData = new FormData();
         formData.append("old_file", old_file)

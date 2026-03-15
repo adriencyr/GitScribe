@@ -4,8 +4,8 @@ import { Button, FileUpload, Stack } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
 
 type UploadFileProps = {
-  handleChangeEvent: (event: React.ChangeEvent<HTMLInputElement>, fileName:String) => void;
-  fileName: String;
+  handleChangeEvent: (event: React.ChangeEvent<HTMLInputElement>, fileName:string) => void;
+  fileName: string;
 };
 
 const UploadFile = ({handleChangeEvent, fileName}: UploadFileProps) => {
@@ -29,16 +29,12 @@ const UploadFile = ({handleChangeEvent, fileName}: UploadFileProps) => {
 
         <FileUpload.Trigger asChild>
           <Button variant="outline" size="sm" width="fit-content">
-            <HiUpload /> Upload file
+            <HiUpload /> Upload your {fileName=="newFile" ? "new file" : "old file"} here
           </Button>
         </FileUpload.Trigger>
 
         <FileUpload.List />
       </FileUpload.Root>
-
-      <Button colorPalette="teal" type="submit" alignSelf="flex-end">
-        Submit
-      </Button>
     </Stack>
   );
 };

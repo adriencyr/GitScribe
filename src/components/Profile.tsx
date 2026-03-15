@@ -1,15 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
-
-  // Hook moved to the top to follow the "Rules of Hooks"
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      console.log(user);
-    }
-  }, [isAuthenticated, user]);
 
   // Conditional return happens AFTER hooks are declared
   if (isLoading) {

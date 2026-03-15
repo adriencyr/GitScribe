@@ -92,12 +92,6 @@ def main():
     parser = argparse.ArgumentParser(prog="gitscribe")
     
     subparsers = parser.add_subparsers(dest="command")
-    
-    # setup command
-    setup_parser = subparsers.add_parser(
-        "setup",
-        help="initialize GitScribe configuration"
-    )
 
     # generate command
     generate_parser = subparsers.add_parser(

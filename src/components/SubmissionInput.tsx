@@ -1,16 +1,35 @@
-import { Button, HStack } from "@chakra-ui/react";
-import { RiArrowRightLine, RiMailLine } from "react-icons/ri";
+import { Box, Tabs } from "@chakra-ui/react";
+import UploadFile from "./UploadFile";
+import CopyText from "./CopyText";
 
 const SubmissionInput = () => {
   return (
-    <HStack>
-      <Button colorPalette="teal" variant="solid">
-        <RiMailLine /> Upload File
-      </Button>
-      <Button colorPalette="teal" variant="outline">
-        Copy Text <RiArrowRightLine />
-      </Button>
-    </HStack>
+    <Box mt="6">
+      <Tabs.Root defaultValue="file" variant="outline">
+        <Tabs.List>
+          <Tabs.Trigger value="file">File Upload</Tabs.Trigger>
+          <Tabs.Trigger value="text">Copy Text</Tabs.Trigger>
+        </Tabs.List>
+
+        <Tabs.Content value="file">
+          <Box mt="4">
+            <UploadFile />
+          </Box>
+        </Tabs.Content>
+
+        <Tabs.Content value="text">
+          <Box mt="4">
+            <CopyText />
+          </Box>
+        </Tabs.Content>
+
+        <Tabs.Content value="file">
+          <Box mt="4">
+            <UploadFile />
+          </Box>
+        </Tabs.Content>
+      </Tabs.Root>
+    </Box>
   );
 };
 

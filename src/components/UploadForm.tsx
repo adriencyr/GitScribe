@@ -23,8 +23,7 @@ const UploadForm = () => {
   return (
     <div>
         <UploadFile fileName="oldFile" handleChangeEvent = {handleChangeEvent}/>
-        <UploadFile fileName="newFile" handleChangeEvent = {handleChangeEvent}/>
-        
+        <UploadFile fileName="newFile" handleChangeEvent = {handleChangeEvent}/>  
     </div>
   );
 };

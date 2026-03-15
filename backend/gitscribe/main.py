@@ -1,29 +1,171 @@
 import argparse
-from gitscribe.generator import generate_commit_message_from_file
+from pathlib import Path
+from git import Repo
+from gitscribe.git_utils import generate_summary_from_combined_diff
+from gitscribe.generator import generate_commit_message_from_summary
+
+
+def find_git_root() -> Path | None:
+    """
+    Find the nearest Git repository root from the current working directory.
+
+    Returns:
+        Path | None: The repository root if found, otherwise None.
+    """
+    cwd = Path.cwd()
+
+    for parent in [cwd] + list(cwd.parents):
+        if (parent / ".git").is_dir():
+            return parent
+
+    return None
+
+
+def read_head_file(head, rel_path: str) -> str | None:
+    """
+    Read a file from the HEAD commit.
+
+    Args:
+        head: The HEAD commit object.
+        rel_path (str): The file path relative to the repo root.
+
+    Returns:
+        str | None: The file contents if found, otherwise None.
+    """
+    try:
+        blob = head.tree / rel_path
+        return blob.data_stream.read().decode("utf-8", errors="ignore")
+    except Exception:
+        return None
+
+
+def read_working_file(repo_root: Path, rel_path: str) -> str | None:
+    """
+    Read a file from the current working directory.
+
+    Args:
+        repo_root (Path): The root of the repository.
+        rel_path (str): The file path relative to the repo root.
+
+    Returns:
+        str | None: The file contents if found, otherwise None.
+    """
+    file_path = repo_root / rel_path
+
+    if not file_path.exists() or not file_path.is_file():
+        return None
+
+    return file_path.read_text(encoding="utf-8", errors="ignore")
+
+
+def build_combined_diff_text(
+    changed_files: list[tuple[str, str, str, str]]
+) -> str:
+    """
+    Build one combined diff-like text block from all changed files.
+
+    Args:
+        changed_files (list[tuple[str, str, str, str]]):
+            A list of tuples in the format:
+            (file_path, change_type, old_content, new_content)
+
+    Returns:
+        str: A combined text representation of all file changes.
+    """
+    sections = []
+
+    for file_path, change_type, old_content, new_content in changed_files:
+        section = (
+            f"File: {file_path}\n"
+            f"Change Type: {change_type}\n"
+            f"--- OLD VERSION ---\n"
+            f"{old_content}\n\n"
+            f"--- NEW VERSION ---\n"
+            f"{new_content}\n"
+        )
+        sections.append(section)
+
+    return "\n\n".join(sections)
+
 
 def main():
     parser = argparse.ArgumentParser(prog="gitscribe")
-    parser.add_argument("-t","--type", type= str, choices=['m', 'a', 'r'], help="what type of commit, either: modify, add, or remove")
-    parser.add_argument( "-cf","--changed_filename", help="filename of changed file", type=str)
-    parser.add_argument("-of","--old_filename", help="filename old file", type=str, nargs='?', default='no_file_given')
-    parser.add_argument( "-nm",'--num_msgs', help="number of commit messages to generate", type=int, nargs='?', default=1)
+    parser.add_argument(
+        "-g",
+        "--generate",
+        action="store_true",
+        help="generate commit message suggestions from working tree changes",
+    )
+    parser.add_argument(
+        "-nm",
+        "--num_msgs",
+        type=int,
+        default=3,
+        help="number of commit messages to generate",
+    )
 
     args = parser.parse_args()
-    commit_type = args.type
 
-    if (commit_type == "m" and args.old_filename != "no_file_given"):
-        print("Your changed file is " + args.changed_filename + "\nYour old file is: " + args.old_filename)
-        # generate commit message
-        commit_message_arr = generate_commit_message_from_file(args.num_msgs, args.old_filename, args.changed_filename)
-        print("Generated commit messages:")
-        for msg in commit_message_arr:
-            print(msg)
-    # getchange(args.filename)
-    elif (commit_type == "a"):
-        for i in range(args.num_msgs):
-            print("added file: " + args.changed_filename)
-    elif (commit_type == "r"):
-        for i in range(args.num_msgs):
-            print("removed file: " + args.changed_filename)
-    else:
-        print("Input given not valid.")
+    if not args.generate:
+        return
+    
+    repo_root = find_git_root()
+    if repo_root is None:
+        print("No .git directory found in current or parent directories.")
+        return
+
+    print(f".git directory found at: {repo_root / '.git'}")
+
+    repo = Repo(repo_root)
+    head = repo.head.commit
+    diffs = head.diff(None)
+
+    if not diffs:
+        print("No working tree changes found.")
+        return
+
+    changed_files: list[tuple[str, str, str, str]] = []
+
+    for diff in diffs:
+        rel_path = diff.a_path or diff.b_path
+        if rel_path is None:
+            continue
+
+        old_content = read_head_file(head, rel_path)
+        new_content = read_working_file(repo_root, rel_path)
+
+        if old_content is None and new_content is None:
+            continue
+
+        if old_content is None:
+            change_type = "added"
+            old_content = ""
+        elif new_content is None:
+            change_type = "removed"
+            new_content = ""
+        else:
+            change_type = "modified"
+
+        changed_files.append((rel_path, change_type, old_content, new_content))
+
+    if not changed_files:
+        print("No readable file changes found.")
+        return
+
+    combined_diff_text = build_combined_diff_text(changed_files)
+
+    print("\nGenerating overall summary...")
+    summary = generate_summary_from_combined_diff(combined_diff_text)
+
+    print("\nSummary:")
+    print(summary)
+
+    print("\nGenerating commit messages...")
+    messages = generate_commit_message_from_summary(args.num_msgs, summary)
+
+    print("\nGenerated commit messages:")
+    for msg in messages:
+        print(f"- {msg}")
+
+if __name__ == "__main__":
+    main()

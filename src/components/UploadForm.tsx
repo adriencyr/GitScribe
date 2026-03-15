@@ -5,7 +5,12 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import NumberInputComponent from "./NumberInputComponent";
 
-const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(messages:[])=>void}) => {
+type UploadFormProps = {
+    handleUpdateMessages:(messages:[])=>void
+    handleUpdateLoadingMessagesState: (value:boolean)=>void
+}
+
+const UploadForm = ({handleUpdateMessages, handleUpdateLoadingMessagesState}:UploadFormProps) => {
     console.log(`${import.meta.env.VITE_AUTH0_URL}/uploads`);
     const [oldFile, setOldFile] = useState<File | null>(null);
     const [newFile, setNewFile] = useState<File | null>(null);
@@ -50,6 +55,7 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(messages:[])=>
         try {
             e.preventDefault();
             if (oldFile && newFile && user?.sub) {
+                handleUpdateLoadingMessagesState(true);
                 //make first api request to upload file
                 const response1 = await uploadFiles(oldFile, newFile, numMsgs, user.sub)
 
@@ -61,6 +67,9 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(messages:[])=>
         }
         catch (e) {
             console.log("Submit error" + e)
+        }
+        finally {
+            handleUpdateLoadingMessagesState(false);
         }
     }
 

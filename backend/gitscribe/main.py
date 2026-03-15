@@ -106,66 +106,76 @@ def main():
 
     args = parser.parse_args()
 
-    if not args.generate:
-        return
+    match args:
+        case _ if args.generate:
+            MIN_MSGS = 1
+            MAX_MSGS = 10
+            if (args.num_msgs < MIN_MSGS):
+                print("Number of messages must be at least 1.")
+                return
+            elif (args.num_msgs > MAX_MSGS):
+                print("Number of messages may not exceed 10.")
+                return
+            
+            repo_root = find_git_root()
+            if repo_root is None:
+                print("No .git directory found in current or parent directories.")
+                return
+
+            print(f".git directory found at: {repo_root / '.git'}")
+
+            repo = Repo(repo_root)
+            head = repo.head.commit
+            diffs = head.diff(None)
+
+            if not diffs:
+                print("No working tree changes found.")
+                return
+
+            changed_files: list[tuple[str, str, str, str]] = []
+
+            for diff in diffs:
+                rel_path = diff.a_path or diff.b_path
+                if rel_path is None:
+                    continue
+
+                old_content = read_head_file(head, rel_path)
+                new_content = read_working_file(repo_root, rel_path)
+
+                if old_content is None and new_content is None:
+                    continue
+
+                if old_content is None:
+                    change_type = "added"
+                    old_content = ""
+                elif new_content is None:
+                    change_type = "removed"
+                    new_content = ""
+                else:
+                    change_type = "modified"
+
+                changed_files.append((rel_path, change_type, old_content, new_content))
+
+            if not changed_files:
+                print("No readable file changes found.")
+                return
+
+            combined_diff_text = build_combined_diff_text(changed_files)
+
+            print("\nGenerating overall summary...")
+            summary = generate_summary_from_combined_diff(combined_diff_text)
+
+            print("\nSummary:")
+            print(summary)
+
+            print("\nGenerating commit messages...")
+            messages = generate_commit_message_from_summary(args.num_msgs, summary)
+
+            print("\nGenerated commit messages:")
+            for msg in messages:
+                print(f"- {msg}")
     
-    repo_root = find_git_root()
-    if repo_root is None:
-        print("No .git directory found in current or parent directories.")
-        return
-
-    print(f".git directory found at: {repo_root / '.git'}")
-
-    repo = Repo(repo_root)
-    head = repo.head.commit
-    diffs = head.diff(None)
-
-    if not diffs:
-        print("No working tree changes found.")
-        return
-
-    changed_files: list[tuple[str, str, str, str]] = []
-
-    for diff in diffs:
-        rel_path = diff.a_path or diff.b_path
-        if rel_path is None:
-            continue
-
-        old_content = read_head_file(head, rel_path)
-        new_content = read_working_file(repo_root, rel_path)
-
-        if old_content is None and new_content is None:
-            continue
-
-        if old_content is None:
-            change_type = "added"
-            old_content = ""
-        elif new_content is None:
-            change_type = "removed"
-            new_content = ""
-        else:
-            change_type = "modified"
-
-        changed_files.append((rel_path, change_type, old_content, new_content))
-
-    if not changed_files:
-        print("No readable file changes found.")
-        return
-
-    combined_diff_text = build_combined_diff_text(changed_files)
-
-    print("\nGenerating overall summary...")
-    summary = generate_summary_from_combined_diff(combined_diff_text)
-
-    print("\nSummary:")
-    print(summary)
-
-    print("\nGenerating commit messages...")
-    messages = generate_commit_message_from_summary(args.num_msgs, summary)
-
-    print("\nGenerated commit messages:")
-    for msg in messages:
-        print(f"- {msg}")
+        
 
 if __name__ == "__main__":
     main()

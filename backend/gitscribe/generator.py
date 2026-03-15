@@ -16,7 +16,7 @@ def generate_commit_message_from_summary(msgs, summary):
     client = get_client()
     
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",

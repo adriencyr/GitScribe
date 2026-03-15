@@ -11,7 +11,7 @@ const CopyText = () => {
   };
 
   return (
-    <Stack gap="4" align="stretch">
+    <Stack gap="6" align="stretch">
       <Textarea
         placeholder="Paste your text here..."
         minH="220px"

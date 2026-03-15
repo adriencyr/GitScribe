@@ -9,7 +9,7 @@ const UploadForm = () => {
     console.log(`${import.meta.env.VITE_AUTH0_URL}/uploads`);
     const [oldFile, setOldFile] = useState<File | null>(null);
     const [newFile, setNewFile] = useState<File | null>(null);
-    const [numMsgs, setNumMsgs] = useState<string>("");
+    const [numMsgs, setNumMsgs] = useState<string>("1");
     const { user } = useAuth0();
 
     function handleFileInputChangeEvent(event: React.ChangeEvent<HTMLInputElement>, fileName: string) {
@@ -28,7 +28,7 @@ const UploadForm = () => {
     }
 
     function handleNumberInputChangeEvent(value:string){
-        console.log(value)
+        setNumMsgs(value);
     }
 
     async function uploadFiles(old_file:File, new_file:File, num_msgs:string, user_id:string) {
@@ -51,7 +51,7 @@ const UploadForm = () => {
         e.preventDefault();
         if (oldFile && newFile && user?.sub) {
             //make first api request to upload file
-            const response1 = await uploadFiles(oldFile, newFile, "4", user.sub)
+            const response1 = await uploadFiles(oldFile, newFile, numMsgs, user.sub)
             
             if(response1?.data){
                 const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs/${user.sub}`)
@@ -67,7 +67,7 @@ const UploadForm = () => {
         <div>
             <UploadFile fileName="oldFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
             <UploadFile fileName="newFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
-            <NumberInputComponent handleNumberInputChangeEvent={handleNumberInputChangeEvent}/>
+            <NumberInputComponent numMsgs = {numMsgs} handleNumberInputChangeEvent={handleNumberInputChangeEvent}/>
             <Button colorPalette="teal" type="submit" alignSelf="flex-end" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{handleSubmitForm(e)}}>
                 Submit
             </Button>

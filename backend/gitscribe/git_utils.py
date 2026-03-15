@@ -1,5 +1,6 @@
 from pathlib import Path
-from gitscribe.client import client
+from gitscribe.client import get_client
+
 
 def generate_summary(content1, content2, label1="file1", label2="file2"):
     """
@@ -14,6 +15,7 @@ def generate_summary(content1, content2, label1="file1", label2="file2"):
     Returns:
         str: A summary of the changes.
     """
+    client = get_client()
     
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -83,6 +85,8 @@ def generate_summary_from_combined_diff(diff_text):
     Returns:
         str: A summary describing the overall change set.
     """
+    client = get_client()
+    
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[

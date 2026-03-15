@@ -1,5 +1,6 @@
-from gitscribe.client import client
+from gitscribe.client import get_client
 from gitscribe.git_utils import generate_summary_from_file, generate_summary_from_text
+
 
 def generate_commit_message_from_summary(msgs, summary):
     """
@@ -12,6 +13,8 @@ def generate_commit_message_from_summary(msgs, summary):
     Returns:
         list[str]: A list of generated commit messages.
     """
+    client = get_client()
+    
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[

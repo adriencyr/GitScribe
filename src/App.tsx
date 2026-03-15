@@ -26,10 +26,19 @@ function App() {
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+              <UploadForm/>
               <Profile />
               <UploadForm/>
               <SubmissionInput />
-              <GeneraterBar />
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
             </main>
           </div>
         </>

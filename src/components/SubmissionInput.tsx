@@ -1,6 +1,6 @@
 import { Box, Tabs } from "@chakra-ui/react";
-import UploadFile from "./UploadFile";
 import CopyText from "./CopyText";
+import UploadForm from "./UploadForm";
 
 const SubmissionInput = () => {
   return (
@@ -13,19 +13,13 @@ const SubmissionInput = () => {
 
         <Tabs.Content value="file">
           <Box mt="4">
-            <UploadFile />
+            <UploadForm />
           </Box>
         </Tabs.Content>
 
         <Tabs.Content value="text">
           <Box mt="4">
             <CopyText />
-          </Box>
-        </Tabs.Content>
-
-        <Tabs.Content value="file">
-          <Box mt="4">
-            <UploadFile />
           </Box>
         </Tabs.Content>
       </Tabs.Root>

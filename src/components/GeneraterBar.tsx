@@ -16,13 +16,16 @@ const CopyText = () => {
         placeholder="Result from GitScribe..."
         minH="150px"
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        readOnly
+        cursor="default"
       />
+
       <Stack gap="2">
-        <Button onClick={handleSubmit} alignSelf="flex-end" colorPalette="teal">
+        <Button onClick={handleSubmit} colorPalette="teal">
           Copy
         </Button>
-        <Button onClick={handleSubmit} alignSelf="flex-end" colorPalette="teal">
+
+        <Button onClick={handleSubmit} colorPalette="teal">
           Re-Generate
         </Button>
       </Stack>

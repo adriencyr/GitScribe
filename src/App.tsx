@@ -19,14 +19,20 @@ function App() {
   }
 
   return (
-    <div className="app-container">
+    <div
+      className="app-container"
+      style={{
+        minHeight: "100vh",
+        background:
+          "linear-gradient(180deg, #EEF2F7 15px, #e4ebff 200px, #ffffff 600px)",
+      }}
+    >
       {isAuthenticated ? (
         <>
           <NavBar />
           <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
             <SideBar />
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
-              <UploadForm/>
               <Profile />
               <SubmissionInput />
               <div style={{ marginTop: "20px" }}>
@@ -56,7 +62,7 @@ const loginContainerStyle: React.CSSProperties = {
   justifyContent: "center",
   alignItems: "center",
   height: "100vh",
-  backgroundColor: "#1A202C", // Dark Slate background
+  backgroundColor: "#D6BCFA", // Dark Slate background
 };
 
 const loadingOverlayStyle: React.CSSProperties = {
@@ -66,7 +72,7 @@ const loadingOverlayStyle: React.CSSProperties = {
   height: "100vh",
   fontSize: "20px",
   color: "white",
-  backgroundColor: "#1A202C",
+  backgroundColor: "#D6BCFA",
 };
 
 export default App;

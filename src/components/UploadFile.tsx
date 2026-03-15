@@ -3,7 +3,12 @@
 import { Button, FileUpload, Stack } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
 
-const UploadFile = () => {
+type UploadFileProps = {
+  handleChangeEvent: (event: React.ChangeEvent<HTMLInputElement>, fileName:string) => void;
+  fileName: string;
+};
+
+const UploadFile = ({handleChangeEvent, fileName}: UploadFileProps) => {
   return (
     <Stack gap="4" align="stretch">
       <FileUpload.Root
@@ -20,20 +25,16 @@ const UploadFile = () => {
           ".css",
         ]}
       >
-        <FileUpload.HiddenInput />
+        <FileUpload.HiddenInput onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{handleChangeEvent(e,fileName)}}/>
 
         <FileUpload.Trigger asChild>
           <Button variant="outline" size="sm" width="fit-content">
-            <HiUpload /> Upload file
+            <HiUpload /> Upload your {fileName=="newFile" ? "new file" : "old file"} here
           </Button>
         </FileUpload.Trigger>
 
         <FileUpload.List />
       </FileUpload.Root>
-
-      <Button colorPalette="teal" type="submit" alignSelf="flex-end">
-        Submit
-      </Button>
     </Stack>
   );
 };

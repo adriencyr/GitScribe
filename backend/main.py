@@ -1,6 +1,8 @@
-from fastapi import FastAPI, Depends, Form, UploadFile, File
-#from gitscribe.generator import generate_commit_message_from_file
-import redis
+from linecache import cache
+
+from fastapi import FastAPI, Depends, Form, UploadFile, File, HTTPException
+from gitscribe.generator import generate_commit_message_from_text
+import redis, json
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -13,6 +15,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:5173",
+    "http://127.0.0.1:5173"
 ]
 
 app.add_middleware(
@@ -32,20 +35,36 @@ async def read_msgs(user_id: str, cache = Depends(get_redis)):
 
 @app.post("/uploads/")
 async def update_item(
-    user_id: str = Form(...), 
-    num_msgs: int = Form(...), 
-    old_file: UploadFile = File(...), 
-    new_file: UploadFile = File(...), 
-    cache = Depends(get_redis)):
-  old_file_content = await old_file.read()
-  new_file_content = await new_file.read()
-  generated_msgs = "changed file to be xyz"
-  cache.set(user_id, generated_msgs)
-  return {"user_id":  user_id,
-          "old_file_type": old_file.content_type,
-          "old_file_content": old_file_content,
-          "new_file_type": new_file.content_type,
-          "new_file_content": new_file_content}
+    user_id: str = Form(...),
+    num_msgs: int = Form(...),
+    old_file: UploadFile = File(...),
+    new_file: UploadFile = File(...),
+    cache = Depends(get_redis)
+):
+    try:
+        old_file_content = await old_file.read()
+        new_file_content = await new_file.read()
+
+        generated_msgs = generate_commit_message_from_text(
+            num_msgs,
+            old_file_content.decode("utf-8"),
+            new_file_content.decode("utf-8")
+        )
+
+        cache.set(user_id, json.dumps(generated_msgs))
+
+        return {
+            "user_id": user_id,
+            "messages": generated_msgs,
+            "old_file_type": old_file.content_type,
+            "old_file_content": old_file_content.decode("utf-8"),
+            "new_file_type": new_file.content_type,
+            "new_file_content": new_file_content.decode("utf-8"),
+        }
+
+    except Exception as e:
+        print("UPLOAD ERROR:", repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 # @app.post("/texts/{item_id}")
 # async def create_item(item_id:str, num_msgs: int, old_filename: str, new_filename: str, cache = Depends(get_redis)):

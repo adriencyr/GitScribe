@@ -15,7 +15,8 @@ dependencies = [
     "openai>=1.0.0",
     "python-dotenv>=1.0.0",
     "redis>=5.0.0",
-    "fastapi>=0.117.1"
+    "fastapi>=0.117.1",
+    "python-multipart>=0.0.9"
 ]
 
 [project.scripts]

@@ -27,11 +27,7 @@ const UploadForm = ({handleUpdateMessages}:{handleUpdateMessages:(value:string)=
         }
     }
 
-<<<<<<< HEAD
     function handleNumberInputChangeEvent(value: string) {
-=======
-    function handleNumberInputChangeEvent(value:string){
->>>>>>> main
         setNumMsgs(value);
     }
 

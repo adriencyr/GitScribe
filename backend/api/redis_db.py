@@ -9,7 +9,7 @@ load_dotenv()
 
 def create_redis():
   return redis.ConnectionPool(
-    #max_connections=20,
+    max_connections=20,
     host= os.getenv("REDIS_HOST"),
     port=19281, 
     decode_responses=True,

@@ -27,7 +27,15 @@ function App() {
             <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
               <Profile />
               <SubmissionInput />
-              <GeneraterBar />
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <GeneraterBar />
+              </div>
             </main>
           </div>
         </>

@@ -3,14 +3,16 @@ import { useState } from "react";
 import { Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import NumberInputComponent from "./NumberInputComponent";
 
 const UploadForm = () => {
     console.log(`${import.meta.env.VITE_AUTH0_URL}/uploads`);
     const [oldFile, setOldFile] = useState<File | null>(null);
     const [newFile, setNewFile] = useState<File | null>(null);
+    const [numMsgs, setNumMsgs] = useState<string>("");
     const { user } = useAuth0();
 
-    function handleChangeEvent(event: React.ChangeEvent<HTMLInputElement>, fileName: string) {
+    function handleFileInputChangeEvent(event: React.ChangeEvent<HTMLInputElement>, fileName: string) {
         const files = event?.target?.files;
         if (files == null) {
             alert("File has not been uploaded yet")
@@ -23,6 +25,10 @@ const UploadForm = () => {
         } else {
             setNewFile(file);
         }
+    }
+
+    function handleNumberInputChangeEvent(value:string){
+        console.log(value)
     }
 
     async function uploadFiles(old_file:File, new_file:File, num_msgs:string, user_id:string) {
@@ -48,7 +54,7 @@ const UploadForm = () => {
             const response1 = await uploadFiles(oldFile, newFile, "4", user.sub)
             
             if(response1?.data){
-                const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs`)
+                const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs/${user.sub}`)
                 console.log(response2?.data)
             }
         }}
@@ -59,8 +65,9 @@ const UploadForm = () => {
 
     return (
         <div>
-            <UploadFile fileName="oldFile" handleChangeEvent={handleChangeEvent} />
-            <UploadFile fileName="newFile" handleChangeEvent={handleChangeEvent} />
+            <UploadFile fileName="oldFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
+            <UploadFile fileName="newFile" handleFileInputChangeEvent={handleFileInputChangeEvent} />
+            <NumberInputComponent handleNumberInputChangeEvent={handleNumberInputChangeEvent}/>
             <Button colorPalette="teal" type="submit" alignSelf="flex-end" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{handleSubmitForm(e)}}>
                 Submit
             </Button>

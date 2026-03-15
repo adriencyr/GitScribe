@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const UploadForm = () => {
-    
+    console.log(`${import.meta.env.VITE_AUTH0_URL}/uploads`);
     const [oldFile, setOldFile] = useState<File | null>(null);
     const [newFile, setNewFile] = useState<File | null>(null);
     const { user } = useAuth0();
@@ -32,8 +32,8 @@ const UploadForm = () => {
             formData.append("new_file", new_file)
             formData.append("num_msgs", num_msgs)
             formData.append("user_id", user_id)
-
-            const response = await axios.post("http://localhost:8000/uploads", formData);
+            
+            const response = await axios.post(`${import.meta.env.VITE_AUTH0_URL}/uploads`, formData);
             return response;
         } catch (error) {
             console.error(error);
@@ -44,11 +44,13 @@ const UploadForm = () => {
         try{
         e.preventDefault();
         if (oldFile && newFile && user?.sub) {
-            console.log(oldFile)
-            console.log(newFile)
-            console.log(user.sub)
-            const response = await uploadFiles(oldFile, newFile, "4", user.sub)
-            console.log(response?.data)
+            //make first api request to upload file
+            const response1 = await uploadFiles(oldFile, newFile, "4", user.sub)
+            
+            if(response1?.data){
+                const response2 = await axios.get(`${import.meta.env.VITE_AUTH0_URL}/msgs`)
+                console.log(response2?.data)
+            }
         }}
         catch(e){
             console.log("Submit error" + e)
